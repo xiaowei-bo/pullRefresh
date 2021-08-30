@@ -1,12 +1,51 @@
 <html>
     <head>
-        <title></title>
+        <title>pullRefresh——移动端下拉回调方法</title>
         <meta charset='UTF-8'>
         <meta name='viewport' content='initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover'>
+        <style>
+            #app{
+                width: 100vw;
+                height: 100vh;
+                background-color: #fff;
+            }
+            .item{
+                width: 100%;
+                height: 50px;
+                line-height: 50px;
+                text-align: center;
+                border-bottom: 1px solid #eee;
+            }
+        </style>
     </head>
     <body>
         <div id='app'>
             
         </div>
     </body>
+    <script src="./lib/pullRefresh.min.js"></script>
+    <script>
+        window.onload = function() {
+            var initList = ['q','w','e','r','t'];
+            var render = function(list) {
+                var app = document.getElementById("app");
+                list.forEach(function(i, idx) {
+                    var c = document.createElement('div');
+                    c.innerText = i;
+                    c.className = 'item';
+                    app.appendChild(c);
+                })
+            }
+            render(initList);
+            // 初始化下拉方法
+            var pullObj = pullRefresh(function() {
+                var nList = [Math.floor(Math.random()*10)];
+                setTimeout(function() {
+                    render(nList);
+                    pullObj.finish();
+                }, 500)
+            });
+            pullObj.init();
+        }
+    </script>
 </html>
