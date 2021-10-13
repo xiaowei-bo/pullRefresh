@@ -4,48 +4,70 @@
         <meta charset='UTF-8'>
         <meta name='viewport' content='initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover'>
         <style>
+            body{
+                padding-top: 50px;
+                background-color: #f8f8f8;
+            }
             #app{
                 width: 100vw;
                 height: 100vh;
-                background-color: #fff;
+                background-color: #f8f8f8;
             }
-            .item{
+            .box{
+                width: 90%;
+                height: 500px;
+                border-radius: 20px;
+                overflow: hidden;
+                background-color: #fff;
+                margin: 0 auto;
+            }
+            .tar{
+                padding-top: 20px;
+            }
+            .fixed{
                 width: 100%;
                 height: 50px;
                 line-height: 50px;
+                background-color: #fff;
+                position: fixed;
+                left: 0;
+                top: 0;
+                z-index: 1;
+            }
+            .btn{
+                display: inline-block;
+                height: 100%;
+                width: 20%;
                 text-align: center;
-                border-bottom: 1px solid #eee;
             }
         </style>
     </head>
     <body>
-        <div id='app'>
-            
+        <div class="fixed">
+            <span class="btn">按钮</span>
+            <span class="btn">按钮</span>
+            <span class="btn">按钮</span>
+            <span class="btn">按钮</span>
+        </div>
+        <div id="pullParEl">
+            <div id="pullTarEl" class="tar">
+                <div class="box"></div>
+            </div>
         </div>
     </body>
-    <script src="./lib/pullRefresh.min.js"></script>
+    <script src="./lib/pullRefresh.js"></script>
     <script>
         window.onload = function() {
-            var initList = ['q','w','e','r','t'];
-            var render = function(list) {
-                var app = document.getElementById("app");
-                list.forEach(function(i, idx) {
-                    var c = document.createElement('div');
-                    c.innerText = i;
-                    c.className = 'item';
-                    app.appendChild(c);
-                })
-            }
-            render(initList);
-            // 初始化下拉方法
-            var pullObj = pullRefresh(function() {
-                var nList = [Math.floor(Math.random()*10)];
-                setTimeout(function() {
-                    render(nList);
-                    pullObj.finish();
-                }, 500)
+            var pullRefreshObj = pullRefresh({
+                parEl: "pullParEl",
+                tarEl: "pullTarEl",
+                pullCallback: async () => {
+                    setTimeout(function() {
+                        pullRefreshObj.finish();
+                    }, 1000);
+                }
             });
-            pullObj.init();
+            pullRefreshObj.init();
         }
     </script>
 </html>
